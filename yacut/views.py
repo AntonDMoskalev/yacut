@@ -31,18 +31,18 @@ def index_view():
     """
     form = URL_mapForm()
     if form.validate_on_submit():
-        short = form.short.data
-        if short:
-            if URL_map.query.filter_by(short=short).first():
-                flash(f'Ссылка {short} уже создана')
-                return render_template('index.html', form=form)
+        short_name = form.custom_id.data
+        if short_name:
+            if URL_map.query.filter_by(short=short_name).first():
+                flash(f'Имя {short_name} уже занято!')
+                return render_template('index.html', form=form), 400
         else:
-            short = get_unique_short_id(form.original.data)
-        url = URL_map(original=form.original.data, short=short)
+            short_name = get_unique_short_id(form.original_link.data)
+        url = URL_map(original=form.original_link.data, short=short_name)
         db.session.add(url)
         db.session.commit()
-        flash(f"<a href='/{short}' class='alert-link'>{URL}{short}</a>")
-        return redirect('/')
+        flash(f"<a href='/{short_name}' class='alert-link'>{URL}{short_name}</a>")
+        return redirect('/'), 200
     return render_template('index.html', form=form)
 
 
