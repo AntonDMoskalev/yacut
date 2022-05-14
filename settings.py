@@ -7,4 +7,4 @@ class Config(object):
     SECRET_KEY = os.getenv('SECRET_KEY')
 
 
-URL = os.getenv('URL')  # Register the site URL.
+URL = 'http://127.0.0.1:5000/'

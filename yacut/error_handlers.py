@@ -1,6 +1,9 @@
 from flask import jsonify, render_template
 
 from . import app, db
+from .views import get_unique_short_id
+from .models import URL_map
+import re
 
 
 class InvalidAPIUsage(Exception):
@@ -30,3 +33,18 @@ def page_not_found(error):
 def internal_error(error):
     db.session.rollback()
     return render_template('500.html'), 500
+
+
+def request_verification(data):
+    if not data:
+        raise InvalidAPIUsage('Отсутствует тело запроса', 400)
+    if not data.get('url'):
+        raise InvalidAPIUsage('"url" является обязательным полем!', 400)
+    custom_id = data.get('custom_id', get_unique_short_id(data['url']))
+    if not custom_id:
+        custom_id = get_unique_short_id(data['url'])
+    if re.search('[А-Яа-я !@%#.&*+$_{+-]', custom_id) or len(custom_id) >= 16:
+        raise InvalidAPIUsage('Указано недопустимое имя для короткой ссылки', 400)
+    if URL_map.query.filter_by(short=custom_id).first():
+        raise InvalidAPIUsage(f'Имя "{custom_id}" уже занято.', 400)
+    return custom_id
