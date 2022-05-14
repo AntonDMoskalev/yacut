@@ -1,37 +1,37 @@
-Клонировать репозиторий и перейти в него в командной строке:
+# Проект YaCut — это сервис укорачивания ссылок.
 
-```
-git clone 
-```
+## Технологии:
+[![Flask](https://codersera.com/blog/wp-content/uploads/2019/06/flask-1-300x125.png)](https://flask.palletsprojects.com/en/2.1.x/)
 
-```
-cd yacut
-```
+## Описание проекта:
+#### Реализован с помощью фреймворка Flask. Сервис создаёт короткую URL ссылку, которую предлагает пользователь или автоматически генерирует на основе оригинальной. Реализован Web-интерфейс, а также API для создания и сохранения ссылок.
 
-Cоздать и активировать виртуальное окружение:
+## Запуск проекта:
+#### Склонировать репозиторий
+> https://github.com/AntonDMoskalev/yacut.git
 
-```
-python3 -m venv venv
-```
+#### Установить и активировать виртуальное окружение
+> python -m venv venv
 
-* Если у вас Linux/MacOS
+#### Обновить менеджер пакетов PIP
+> python -m pip install --upgrade pip
 
-    ```
-    source venv/bin/activate
-    ```
+#### Requirements.txt
+> pip install -r requirements.txt
 
-* Если у вас windows
+#### Создать и настроить файл .env
+> FLASK_APP= имя приложения
+> DATABASE_URI= Настройка базы
+> SECRET_KEY= Ключ
 
-    ```
-    source venv/scripts/activate
-    ```
+#### Запустить проект
+> flask run
 
-Установить зависимости из файла requirements.txt:
 
-```
-python3 -m pip install --upgrade pip
-```
+## API проекта:
+#### /api/id/ — POST-запрос на создание новой короткой ссылки;
+> {    "url": "str",  "custom_id": "str"  }
+#####  url - обязательное поле
+#####  custom_id - уникальное поле, если не указано, то сервис сам сгенерирует ссылку
 
-```
-pip install -r requirements.txt
-```
+#### /api/id/<short_id>/ — GET-запрос на получение оригинальной ссылки по указанному короткому идентификатору.
