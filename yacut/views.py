@@ -1,12 +1,11 @@
 import re
 from random import choice
 
-from flask import abort, flash, redirect, render_template
+from flask import abort, flash, redirect, render_template, request
 
 from . import app, db
 from .forms import URL_mapForm
 from .models import URL_map
-from settings import URL
 
 
 def get_unique_short_id(url):
@@ -41,7 +40,9 @@ def index_view():
         url = URL_map(original=form.original_link.data, short=short_name)
         db.session.add(url)
         db.session.commit()
-        flash(f"<a href='{URL}/{short_name}' class='alert-link'>{URL}/{short_name}</a>")
+        flash(f'<h5 class="text-center">Ваша новая ссылка готова: '
+              f'<a href="{request.url_root}{short_name}"'
+              f'class="alert-link">{request.url_root}{short_name}</a></h5>')
         return render_template('index.html', form=form)
     return render_template('index.html', form=form)
 

@@ -1,9 +1,10 @@
+import re
+
 from flask import jsonify, render_template
 
 from . import app, db
-from .views import get_unique_short_id
 from .models import URL_map
-import re
+from .views import get_unique_short_id
 
 
 class InvalidAPIUsage(Exception):
@@ -36,6 +37,9 @@ def internal_error(error):
 
 
 def request_verification(data):
+    """
+    Checking API requests for compliance with documentation.
+    """
     if not data:
         raise InvalidAPIUsage('Отсутствует тело запроса', 400)
     if not data.get('url'):
