@@ -6,6 +6,7 @@ from flask import abort, flash, redirect, render_template, request
 from . import app, db
 from .forms import URL_mapForm
 from .models import URL_map
+from http import HTTPStatus
 
 
 def get_unique_short_id(url):
@@ -34,7 +35,7 @@ def index_view():
         if short_name:
             if URL_map.query.filter_by(short=short_name).first():
                 flash(f'Имя {short_name} уже занято!')
-                return render_template('index.html', form=form), 400
+                return render_template('index.html', form=form), HTTPStatus.BAD_REQUEST
         else:
             short_name = get_unique_short_id(form.original_link.data)
         url = URL_map(original=form.original_link.data, short=short_name)
