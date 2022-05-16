@@ -1,4 +1,5 @@
 import re
+from http import HTTPStatus
 from random import choice
 
 from flask import abort, flash, redirect, render_template, request
@@ -6,7 +7,6 @@ from flask import abort, flash, redirect, render_template, request
 from . import app, db
 from .forms import URL_mapForm
 from .models import URL_map
-from http import HTTPStatus
 
 
 def get_unique_short_id(url):

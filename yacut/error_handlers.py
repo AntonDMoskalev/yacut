@@ -1,11 +1,11 @@
 import re
+from http import HTTPStatus
 
 from flask import jsonify, render_template
 
 from . import app, db
 from .models import URL_map
 from .views import get_unique_short_id
-from http import HTTPStatus
 
 
 class InvalidAPIUsage(Exception):
